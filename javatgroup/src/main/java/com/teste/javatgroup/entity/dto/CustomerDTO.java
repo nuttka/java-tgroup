@@ -1,40 +1,31 @@
-package com.teste.javatgroup.entity;
+package com.teste.javatgroup.entity.dto;
 
-import javax.persistence.*;
+import com.teste.javatgroup.entity.Address;
+
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "customer")
-public class Customer {
+public class CustomerDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
-
-    @Column(name = "name")
+    @NotNull(message = "Name cannot be null")
     private String name;
-
-    @Column(name = "email")
+    @NotNull(message = "Email cannot be null")
     private String email;
-
-    @Column(name = "document")
+    @NotNull(message = "Document cannot be null")
     private String document;
-
-    @Column(name = "birth_date")
+    @NotNull(message = "Birth date cannot be null")
     private LocalDate birthDate;
-
-    @Column(name = "phone")
+    @NotNull(message = "Phone cannot be null")
     private String phone;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
-    public Customer() {};
+    public CustomerDTO() {};
 
-    public Customer(Integer id, String name, String email, String document, LocalDate birthDate, String phone, List<Address> addresses) {
+    public CustomerDTO(Integer id, String name, String email, String document, LocalDate birthDate, String phone, List<Address> addresses) {
         this.id = id;
         this.name = name;
         this.email = email;
