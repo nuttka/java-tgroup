@@ -1,7 +1,6 @@
 package com.teste.javatgroup.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "address")
@@ -36,9 +35,13 @@ public class Address {
     @Column(name = "country")
     private String country;
 
+    @ManyToOne
+    @JoinColumn(name = "id_customer")
+    private Customer customer;
+
     public Address() {};
 
-    public Address(Integer id, String zipCode, String street, Integer number, String complement, String district, String city, String state, String country) {
+    public Address(Integer id, String zipCode, String street, Integer number, String complement, String district, String city, String state, String country, Customer customer) {
         this.id = id;
         this.zipCode = zipCode;
         this.street = street;
@@ -48,6 +51,7 @@ public class Address {
         this.city = city;
         this.state = state;
         this.country = country;
+        this.customer = customer;
     }
 
     public Integer getId() {
@@ -121,4 +125,13 @@ public class Address {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }
+

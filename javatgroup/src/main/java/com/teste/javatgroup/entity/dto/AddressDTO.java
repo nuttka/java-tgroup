@@ -1,6 +1,8 @@
 package com.teste.javatgroup.entity.dto;
 
 
+import com.teste.javatgroup.entity.Customer;
+
 import javax.validation.constraints.NotNull;
 
 public class AddressDTO {
@@ -22,10 +24,12 @@ public class AddressDTO {
     private String state;
     @NotNull(message = "Country cannot be null")
     private String country;
+    @NotNull(message = "Customer cannot be null")
+    private Customer customer;
 
     public AddressDTO() {};
 
-    public AddressDTO(Integer id, String zipCode, String street, Integer number, String complement, String district, String city, String state, String country) {
+    public AddressDTO(Integer id, String zipCode, String street, Integer number, String complement, String district, String city, String state, String country, Customer customer) {
         this.id = id;
         this.zipCode = zipCode;
         this.street = street;
@@ -35,6 +39,7 @@ public class AddressDTO {
         this.city = city;
         this.state = state;
         this.country = country;
+        this.customer = customer;
     }
 
     public Integer getId() {
@@ -107,5 +112,13 @@ public class AddressDTO {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
