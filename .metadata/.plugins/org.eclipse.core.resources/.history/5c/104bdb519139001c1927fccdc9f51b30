@@ -1,0 +1,5 @@
+package com.tgroup.teste.exception;
+
+public class ObjectNotFoundException {
+
+}
