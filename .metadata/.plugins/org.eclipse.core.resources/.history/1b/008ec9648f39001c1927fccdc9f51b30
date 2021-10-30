@@ -1,5 +1,0 @@
-package com.tgroup.teste.repository;
-
-public interface AddressRepository {
-
-}
