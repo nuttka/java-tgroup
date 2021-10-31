@@ -1,6 +1,7 @@
 package com.tgroup.teste.entity.dto;
 
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.tgroup.teste.entity.Address;
@@ -12,22 +13,24 @@ import java.util.List;
 public class CustomerDTO {
 
     private Integer id;
-    @NotNull(message = "Name cannot be null")
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
-    @NotNull(message = "Email cannot be null")
+    @NotEmpty(message = "Email cannot be empty")
     private String email;
-    @NotNull(message = "Document cannot be null")
+    @NotEmpty(message = "Password cannot be empty")
+    private String password;
+    @NotEmpty(message = "Document cannot be empty")
     private String document;
-    @NotNull(message = "Birth date cannot be null")
+    @NotEmpty(message = "Birth date cannot be empty")
     private LocalDate birthDate;
-    @NotNull(message = "Phone cannot be null")
+    @NotEmpty(message = "Phone cannot be empty")
     private String phone;
     @NotNull(message = "Addresses cannot be null")
     private List<Address> addresses = new ArrayList<>();
 
     public CustomerDTO() {};
 
-    public CustomerDTO(Integer id, String name, String email, String document, LocalDate birthDate, String phone, List<Address> addresses) {
+    public CustomerDTO(Integer id, String name, String email, String document, LocalDate birthDate, String phone, List<Address> addresses, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -35,6 +38,7 @@ public class CustomerDTO {
         this.birthDate = birthDate;
         this.phone = phone;
         this.addresses = addresses;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -59,6 +63,14 @@ public class CustomerDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getDocument() {

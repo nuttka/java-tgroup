@@ -3,6 +3,7 @@ package com.tgroup.teste.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tgroup.teste.entity.Customer;
@@ -14,6 +15,9 @@ import com.tgroup.teste.repository.CustomerRepository;
 @Service
 public class CustomerService {
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
     @Autowired
     private CustomerRepository repository;
     
@@ -21,7 +25,7 @@ public class CustomerService {
     private AddressService addressService;
     
     public Customer create(CustomerDTO customerDTO) {
-    	Customer customer = new Customer(customerDTO.getName(), customerDTO.getEmail(), customerDTO.getDocument(), customerDTO.getBirthDate(), customerDTO.getPhone(), customerDTO.getAddresses());
+    	Customer customer = new Customer(customerDTO.getName(), customerDTO.getEmail(), customerDTO.getDocument(), customerDTO.getBirthDate(), customerDTO.getPhone(), customerDTO.getAddresses(), bCryptPasswordEncoder.encode(customerDTO.getPassword()));
     	
     	repository.save(customer);
     	

@@ -3,6 +3,7 @@ package com.tgroup.teste.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.time.LocalDate;
@@ -25,6 +26,9 @@ public class Customer {
 
     @Column(name = "email")
     private String email;
+    
+    @JsonIgnore
+    private String password;
 
     @Column(name = "document")
     private String document;
@@ -40,13 +44,14 @@ public class Customer {
 
     public Customer() {};
 
-    public Customer(String name, String email, String document, LocalDate birthDate, String phone, List<Address> addresses) {
+    public Customer(String name, String email, String document, LocalDate birthDate, String phone, List<Address> addresses, String password) {
         this.name = name;
         this.email = email;
         this.document = document;
         this.birthDate = birthDate;
         this.phone = phone;
         this.addresses = addresses;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -104,5 +109,13 @@ public class Customer {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
     
 }
