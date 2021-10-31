@@ -1,8 +1,9 @@
 package com.tgroup.teste.entity.enums;
 
 public enum Profile {
-	
-	ADMIN(1, "ROLE_ADMIN");
+
+	ADMIN(1, "ROLE_ADMIN"),
+	CUSTOMER(2, "ROLE_CUSTOMER");
 	
 	private int code;
 	private String description;

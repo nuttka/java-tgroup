@@ -4,8 +4,6 @@ package com.tgroup.teste.entity.dto;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.tgroup.teste.entity.Address;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +24,11 @@ public class CustomerDTO {
     @NotEmpty(message = "Phone cannot be empty")
     private String phone;
     @NotNull(message = "Addresses cannot be null")
-    private List<Address> addresses = new ArrayList<>();
+    private List<AddressWithoutCustomerDTO> addresses = new ArrayList<>();
 
     public CustomerDTO() {};
 
-    public CustomerDTO(Integer id, String name, String email, String document, LocalDate birthDate, String phone, List<Address> addresses, String password) {
-        this.id = id;
+    public CustomerDTO(String name, String email, String document, LocalDate birthDate, String phone, List<AddressWithoutCustomerDTO> addresses, String password) {
         this.name = name;
         this.email = email;
         this.document = document;
@@ -97,11 +94,11 @@ public class CustomerDTO {
         this.phone = phone;
     }
 
-    public List<Address> getAddresses() {
+    public List<AddressWithoutCustomerDTO> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(List<AddressWithoutCustomerDTO> addresses) {
         this.addresses = addresses;
     }
 }

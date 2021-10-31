@@ -5,10 +5,14 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.tgroup.teste.entity.enums.Profile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
@@ -28,7 +32,12 @@ public class Customer {
     private String email;
     
     @JsonIgnore
+    @Column(name = "password")
     private String password;
+    
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="profiles")
+    private Set<Integer> profiles = new HashSet<>();
 
     @Column(name = "document")
     private String document;
@@ -42,7 +51,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
-    public Customer() {};
+    public Customer() {
+    	addProfile(Profile.CUSTOMER);
+    };
 
     public Customer(String name, String email, String document, LocalDate birthDate, String phone, List<Address> addresses, String password) {
         this.name = name;
@@ -52,6 +63,7 @@ public class Customer {
         this.phone = phone;
         this.addresses = addresses;
         this.password = password;
+    	addProfile(Profile.CUSTOMER);
     }
 
     public Integer getId() {
@@ -77,6 +89,23 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public Set<Profile> getProfiles() {
+		return profiles.stream().map(profile -> Profile.toEnum(profile)).collect(Collectors.toSet());
+	}
+	
+	public void addProfile(Profile profile) {
+		profiles.add(profile.getCode());
+	}
+
 
     public String getDocument() {
         return document;
@@ -110,12 +139,5 @@ public class Customer {
         this.addresses = addresses;
     }
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
     
 }

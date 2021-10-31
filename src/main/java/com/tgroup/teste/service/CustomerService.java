@@ -1,11 +1,14 @@
 package com.tgroup.teste.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.tgroup.teste.entity.Address;
 import com.tgroup.teste.entity.Customer;
 import com.tgroup.teste.entity.dto.AddressDTO;
 import com.tgroup.teste.entity.dto.CustomerDTO;
@@ -25,16 +28,16 @@ public class CustomerService {
     private AddressService addressService;
     
     public Customer create(CustomerDTO customerDTO) {
-    	Customer customer = new Customer(customerDTO.getName(), customerDTO.getEmail(), customerDTO.getDocument(), customerDTO.getBirthDate(), customerDTO.getPhone(), customerDTO.getAddresses(), bCryptPasswordEncoder.encode(customerDTO.getPassword()));
+    	Customer customer = new Customer(customerDTO.getName(), customerDTO.getEmail(), customerDTO.getDocument(), customerDTO.getBirthDate(), customerDTO.getPhone(), new ArrayList<>(), bCryptPasswordEncoder.encode(customerDTO.getPassword()));
     	
-    	repository.save(customer);
+    	Customer savedCustomer = repository.save(customer);
     	
     	customerDTO.getAddresses().stream().forEach(address -> {
-    		AddressDTO addressDTO = addressService.addressDtoToAddress(address);
+    		AddressDTO addressDTO = address.toAddressDTO(savedCustomer.getId());
     		addressService.create(addressDTO);
     	});
     	
-    	return customer;
+    	return findById(savedCustomer.getId());
     }
     
     public Customer findById(Integer id) {
@@ -51,7 +54,10 @@ public class CustomerService {
     	customer.setName(customerDTO.getName());
     	customer.setEmail(customerDTO.getEmail());
     	customer.setPhone(customerDTO.getPhone());
-    	customer.setAddresses(customerDTO.getAddresses());
+    	
+    	List<Address> addresses = customerDTO.getAddresses().stream().map(addressWithoutCustomerDTO -> addressWithoutCustomerDTO.toAddress(customer)).collect(Collectors.toList());
+    	
+    	customer.setAddresses(addresses);
     	customer.setBirthDate(customerDTO.getBirthDate());
     	customer.setDocument(customerDTO.getDocument());
     	
