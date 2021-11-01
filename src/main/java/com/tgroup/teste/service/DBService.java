@@ -26,7 +26,7 @@ public class DBService {
 		LocalDate date = LocalDate.of(2000, 6, 3);
 		List<Address> addresses = new ArrayList<>();
 		
-		Customer customer = new Customer("Lucas Augusto", "lucasaaaguiar0@gmail.com", "MG17406510", date, "31993665144", addresses, bCryptPasswordEncoder.encode("123"));
+		Customer customer = new Customer("admin", "admin@admin.com", "BR22333333", date, "98645221348", addresses, bCryptPasswordEncoder.encode("admin"));
 		customer.addProfile(Profile.ADMIN);
 		
 		customerRepository.save(customer);

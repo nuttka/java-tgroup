@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tgroup.teste.entity.Customer;
 import com.tgroup.teste.entity.dto.CustomerDTO;
@@ -42,6 +43,12 @@ public class CustomerController {
         return ResponseEntity.ok().body(service.create(customerDTO));
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping("/admin")
+    public ResponseEntity<Customer> createAdmin(@RequestBody CustomerDTO customerDTO) {
+        return ResponseEntity.ok().body(service.createAdmin(customerDTO));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Integer> delete(@PathVariable Integer id) {
     	service.deleteById(id);

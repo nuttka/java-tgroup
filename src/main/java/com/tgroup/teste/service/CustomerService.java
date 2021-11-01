@@ -12,6 +12,7 @@ import com.tgroup.teste.entity.Address;
 import com.tgroup.teste.entity.Customer;
 import com.tgroup.teste.entity.dto.AddressDTO;
 import com.tgroup.teste.entity.dto.CustomerDTO;
+import com.tgroup.teste.entity.enums.Profile;
 import com.tgroup.teste.exception.ObjectNotFoundException;
 import com.tgroup.teste.repository.CustomerRepository;
 
@@ -67,4 +68,17 @@ public class CustomerService {
     public void deleteById(Integer id) {
     	repository.deleteById(id);
     }
+
+	public Customer createAdmin(CustomerDTO customerDTO) {
+    	Customer customer = new Customer(customerDTO.getName(), customerDTO.getEmail(), customerDTO.getDocument(), customerDTO.getBirthDate(), customerDTO.getPhone(), new ArrayList<>(), bCryptPasswordEncoder.encode(customerDTO.getPassword()));
+    	customer.addProfile(Profile.ADMIN);
+    	Customer savedCustomer = repository.save(customer);
+    	
+    	customerDTO.getAddresses().stream().forEach(address -> {
+    		AddressDTO addressDTO = address.toAddressDTO(savedCustomer.getId());
+    		addressService.create(addressDTO);
+    	});
+    	
+    	return findById(savedCustomer.getId());
+	}
 }
