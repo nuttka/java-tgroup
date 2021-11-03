@@ -3,6 +3,8 @@ package com.tgroup.teste.entity.dto;
 
 import javax.validation.constraints.NotNull;
 
+import com.tgroup.teste.entity.Address;
+
 
 public class AddressDTO {
 
@@ -13,7 +15,7 @@ public class AddressDTO {
     private String street;
     @NotNull(message = "Number cannot be null")
     private Integer number;
-    @NotNull(message = "Complement cannot be null")
+    
     private String complement;
     @NotNull(message = "District cannot be null")
     private String district;
@@ -119,4 +121,9 @@ public class AddressDTO {
     public void setCustomer(Integer customerId) {
         this.customerId = customerId;
     }
+    
+	public AddressDTO addressDtoToAddress(Address address) {
+		return new AddressDTO(address.getZipCode(), address.getStreet(), address.getNumber(), address.getComplement(), address.getDistrict(), address.getCity(), address.getState(), address.getCountry(), address.getCustomer().getId());
+		
+	}
 }

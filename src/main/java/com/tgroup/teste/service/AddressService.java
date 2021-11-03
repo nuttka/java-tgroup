@@ -60,10 +60,5 @@ public class AddressService {
     	repository.deleteById(id);
     }
 
-	public AddressDTO addressDtoToAddress(Address address) {
-		return new AddressDTO(address.getZipCode(), address.getStreet(), address.getNumber(), address.getComplement(), address.getDistrict(), address.getCity(), address.getState(), address.getCountry(), address.getCustomer().getId());
-		
-	}
-
 
 }

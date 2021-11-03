@@ -16,7 +16,7 @@ public class AddressWithoutCustomerDTO {
     private String street;
     @NotNull(message = "Number cannot be null")
     private Integer number;
-    @NotNull(message = "Complement cannot be null")
+
     private String complement;
     @NotNull(message = "District cannot be null")
     private String district;

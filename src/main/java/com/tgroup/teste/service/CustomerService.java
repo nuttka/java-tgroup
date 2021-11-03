@@ -33,12 +33,14 @@ public class CustomerService {
     	
     	Customer savedCustomer = repository.save(customer);
     	
+    	List<Address> addresses = new ArrayList<>();
     	customerDTO.getAddresses().stream().forEach(address -> {
     		AddressDTO addressDTO = address.toAddressDTO(savedCustomer.getId());
-    		addressService.create(addressDTO);
+    		addresses.add(addressService.create(addressDTO));
     	});
+    	savedCustomer.setAddresses(addresses);
     	
-    	return findById(savedCustomer.getId());
+    	return savedCustomer;
     }
     
     public Customer findById(Integer id) {
