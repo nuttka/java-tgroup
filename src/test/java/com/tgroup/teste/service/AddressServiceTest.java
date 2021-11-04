@@ -1,13 +1,13 @@
 package com.tgroup.teste.service;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,23 +15,26 @@ import com.tgroup.teste.entity.Address;
 import com.tgroup.teste.entity.Customer;
 import com.tgroup.teste.entity.dto.AddressDTO;
 import com.tgroup.teste.entity.dto.CustomerDTO;
+import com.tgroup.teste.exception.ObjectNotFoundException;
+
 
 @SpringBootTest
 public class AddressServiceTest {
-	
+
 	@Autowired
 	private AddressService addressService;
     
-    @Autowired
+	@Autowired
     private CustomerService customerService;
+	
+	private Customer customer;
+	
+	private Address initialAddress;
     
-    Customer customer;
-    Address initialAddress;
-    
-    @Before
+    @BeforeEach
     public void initTest() {
     	CustomerDTO customerDTO = new CustomerDTO("Teste", "teste@teste.com", "123456", LocalDate.now(), "55864533265", new ArrayList<>(), "teste");
-    	customer = customerService.create(customerDTO);
+		customer = customerService.create(customerDTO);
     	
     	String city = "city";
     	String zipCode = "25864582";
@@ -47,6 +50,7 @@ public class AddressServiceTest {
     }
     
     @Test
+    @DisplayName("Create test")
     public void createTest() {
     	String city = "sao paulo";
     	String zipCode = "11654654";
@@ -61,44 +65,44 @@ public class AddressServiceTest {
     	AddressDTO addressDTO = new AddressDTO(zipCode, street, number, complement, district, city, state, country, customerId);
 		Address address = addressService.create(addressDTO);
 
-		assertEquals(address.getCity(), city);
-		assertEquals(address.getComplement(), complement);
-		assertEquals(address.getCustomer().getId(), customerId);
-		assertEquals(address.getDistrict(), district);
-		assertEquals(address.getNumber(), number);
-		assertEquals(address.getState(), state);
-		assertEquals(address.getStreet(), street);
-		assertEquals(address.getZipCode(), zipCode);
-		assertEquals(address.getCountry(), country);
+		Assertions.assertEquals(address.getCity(), city);
+		Assertions.assertEquals(address.getComplement(), complement);
+		Assertions.assertEquals(address.getCustomer().getId(), customerId);
+		Assertions.assertEquals(address.getDistrict(), district);
+		Assertions.assertEquals(address.getNumber(), number);
+		Assertions.assertEquals(address.getState(), state);
+		Assertions.assertEquals(address.getStreet(), street);
+		Assertions.assertEquals(address.getZipCode(), zipCode);
+		Assertions.assertEquals(address.getCountry(), country);
     }
     
     @Test
     public void findByIdTest() {
     	Address address = addressService.findById(initialAddress.getId());
     	
-		assertEquals(address.getCity(), initialAddress.getCity());
-		assertEquals(address.getComplement(), initialAddress.getComplement());
-		assertEquals(address.getCustomer().getId(),initialAddress.getCustomer().getId());
-		assertEquals(address.getDistrict(), initialAddress.getDistrict());
-		assertEquals(address.getNumber(), initialAddress.getNumber());
-		assertEquals(address.getState(), initialAddress.getState());
-		assertEquals(address.getStreet(), initialAddress.getStreet());
-		assertEquals(address.getZipCode(), initialAddress.getZipCode());
-		assertEquals(address.getCountry(), initialAddress.getCountry());
-		assertEquals(address.getId(), initialAddress.getId());
+    	Assertions.assertEquals(address.getCity(), initialAddress.getCity());
+    	Assertions.assertEquals(address.getComplement(), initialAddress.getComplement());
+    	Assertions.assertEquals(address.getCustomer().getId(),initialAddress.getCustomer().getId());
+    	Assertions.assertEquals(address.getDistrict(), initialAddress.getDistrict());
+    	Assertions.assertEquals(address.getNumber(), initialAddress.getNumber());
+    	Assertions.assertEquals(address.getState(), initialAddress.getState());
+    	Assertions.assertEquals(address.getStreet(), initialAddress.getStreet());
+    	Assertions.assertEquals(address.getZipCode(), initialAddress.getZipCode());
+    	Assertions.assertEquals(address.getCountry(), initialAddress.getCountry());
+    	Assertions.assertEquals(address.getId(), initialAddress.getId());
     }
     
     
     @Test
     public void findByIdExceptionTest() {
     	Integer id = 15150;
-        Throwable exception = assertThrows(
-                IllegalArgumentException.class, () -> {
+        Throwable exception = Assertions.assertThrows(
+        		ObjectNotFoundException.class, () -> {
                 	addressService.findById(id);
                 }
         );
         
-        assertEquals("Address not found. Id: " + id, exception.getMessage());
+        Assertions.assertEquals("Address not found. Id: " + id, exception.getMessage());
     }
     
     @Test
@@ -116,30 +120,30 @@ public class AddressServiceTest {
     	
     	Address address = addressService.update(initialAddress.getId(), addressDTO);
     	
-		assertEquals(address.getCity(), city);
-		assertEquals(address.getComplement(), complement);
-		assertEquals(address.getCustomer().getId(), customerId);
-		assertEquals(address.getDistrict(), district);
-		assertEquals(address.getNumber(), number);
-		assertEquals(address.getState(), state);
-		assertEquals(address.getStreet(), street);
-		assertEquals(address.getZipCode(), zipCode);
-		assertEquals(address.getCountry(), country);
-		assertEquals(address.getId(), initialAddress.getId());
+    	Assertions.assertEquals(address.getCity(), city);
+    	Assertions.assertEquals(address.getComplement(), complement);
+    	Assertions.assertEquals(address.getCustomer().getId(), customerId);
+    	Assertions.assertEquals(address.getDistrict(), district);
+    	Assertions.assertEquals(address.getNumber(), number);
+    	Assertions.assertEquals(address.getState(), state);
+    	Assertions.assertEquals(address.getStreet(), street);
+    	Assertions.assertEquals(address.getZipCode(), zipCode);
+    	Assertions.assertEquals(address.getCountry(), country);
+    	Assertions.assertEquals(address.getId(), initialAddress.getId());
     }
     
     
 	@Test
 	public void deleteByIdTest() {
-		addressService.deleteById(initialAddress.getId());
+    	addressService.deleteById(initialAddress.getId());
 		
-        Throwable exception = assertThrows(
-                IllegalArgumentException.class, () -> {
+        Throwable exception = Assertions.assertThrows(
+                ObjectNotFoundException.class, () -> {
                 	addressService.findById(initialAddress.getId());
                 }
         );
         
-        assertEquals("Address not found. Id: " + initialAddress.getId(), exception.getMessage());
+        Assertions.assertEquals("Address not found. Id: " + initialAddress.getId(), exception.getMessage());
 	}
 
 }
