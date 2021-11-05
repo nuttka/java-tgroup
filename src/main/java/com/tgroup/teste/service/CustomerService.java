@@ -16,6 +16,7 @@ import com.tgroup.teste.entity.enums.Profile;
 import com.tgroup.teste.exception.ObjectNotFoundException;
 import com.tgroup.teste.repository.CustomerRepository;
 
+
 @Service
 public class CustomerService {
 	
@@ -28,7 +29,13 @@ public class CustomerService {
     @Autowired
     private AddressService addressService;
     
-    public Customer create(CustomerDTO customerDTO) {
+    public CustomerService(BCryptPasswordEncoder bCryptPasswordEncoder, CustomerRepository customerRepository, AddressService addressService) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.repository = customerRepository;
+		this.addressService = addressService;
+	}
+
+	public Customer create(CustomerDTO customerDTO) {
     	Customer customer = new Customer(customerDTO.getName(), customerDTO.getEmail(), customerDTO.getDocument(), customerDTO.getBirthDate(), customerDTO.getPhone(), new ArrayList<>(), bCryptPasswordEncoder.encode(customerDTO.getPassword()));
     	
     	Customer savedCustomer = repository.save(customer);

@@ -11,9 +11,10 @@ import com.tgroup.teste.entity.dto.AddressDTO;
 import com.tgroup.teste.exception.ObjectNotFoundException;
 import com.tgroup.teste.repository.AddressRepository;
 
+
 @Service
 public class AddressService {
-
+	
     @Autowired
     private AddressRepository repository;
 
@@ -22,7 +23,11 @@ public class AddressService {
     private CustomerService customerService;
     
     
-    public Address create(AddressDTO addressDTO) {
+    public AddressService(AddressRepository addressRepository) {
+		this.repository = addressRepository;
+	}
+
+	public Address create(AddressDTO addressDTO) {
     	Customer customer = customerService.findById(addressDTO.getCustomerId());
     	
     	Address address = new Address(addressDTO.getZipCode(), addressDTO.getStreet(), addressDTO.getNumber(), addressDTO.getComplement(), addressDTO.getDistrict(), addressDTO.getCity(), addressDTO.getState(), addressDTO.getCountry(), customer);

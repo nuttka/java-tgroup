@@ -4,7 +4,6 @@ package com.tgroup.teste.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +32,7 @@ public class AddressServiceTest {
 	private Address initialAddress;
     
     @BeforeEach
-    public void beforeTest() {
+    public void initTest() {
     	CustomerDTO customerDTO = new CustomerDTO("Teste", "teste@teste.com", "123456", LocalDate.now(), "55864533265", new ArrayList<>(), "teste");
 		customer = customerService.create(customerDTO);
     	
@@ -43,21 +42,11 @@ public class AddressServiceTest {
     	String state = "state";
     	String country = "country";
     	Integer number = 123123;
-    	String complement = "ap x";
+    	String complement = null;
     	Integer customerId = customer.getId();
     	String district = "district";
     	AddressDTO addressDTO = new AddressDTO(zipCode, street, number, complement, district, city, state, country, customerId);
     	initialAddress = addressService.create(addressDTO);
-    }
-    
-    @AfterEach
-    public void afterTest() {
-    	try {
-	    	customerService.deleteById(customer.getId());
-	    	addressService.deleteById(initialAddress.getId());
-    	} catch (Exception e) {
-    		System.out.println(e.getMessage());
-    	}
     }
     
     @Test
@@ -85,12 +74,9 @@ public class AddressServiceTest {
 		Assertions.assertEquals(address.getStreet(), street);
 		Assertions.assertEquals(address.getZipCode(), zipCode);
 		Assertions.assertEquals(address.getCountry(), country);
-		
-		addressService.deleteById(address.getId());
     }
     
     @Test
-    @DisplayName("Find by id test")
     public void findByIdTest() {
     	Address address = addressService.findById(initialAddress.getId());
     	
@@ -108,7 +94,6 @@ public class AddressServiceTest {
     
     
     @Test
-    @DisplayName("Find by id exception test")
     public void findByIdExceptionTest() {
     	Integer id = 15150;
         Throwable exception = Assertions.assertThrows(
@@ -121,7 +106,6 @@ public class AddressServiceTest {
     }
     
     @Test
-    @DisplayName("Update test")
     public void updateTest() {
     	String city = "city";
     	String zipCode = "123";
@@ -149,4 +133,3 @@ public class AddressServiceTest {
     }
 
 }
-
