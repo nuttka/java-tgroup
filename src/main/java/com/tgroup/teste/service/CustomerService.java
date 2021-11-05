@@ -34,11 +34,10 @@ public class CustomerService {
     	Customer savedCustomer = repository.save(customer);
     	
     	List<Address> addresses = new ArrayList<>();
-    	customerDTO.getAddresses().stream().forEach(address -> {
-    		AddressDTO addressDTO = address.toAddressDTO(savedCustomer.getId());
+    	customerDTO.getAddresses().stream().forEach(addressWithoutCustomerDTO -> {
+    		AddressDTO addressDTO = addressWithoutCustomerDTO.toAddressDTO(savedCustomer.getId());
     		addresses.add(addressService.create(addressDTO));
     	});
-    	savedCustomer.setAddresses(addresses);
     	
     	return savedCustomer;
     }
@@ -76,11 +75,11 @@ public class CustomerService {
     	customer.addProfile(Profile.ADMIN);
     	Customer savedCustomer = repository.save(customer);
     	
-    	customerDTO.getAddresses().stream().forEach(address -> {
-    		AddressDTO addressDTO = address.toAddressDTO(savedCustomer.getId());
+    	customerDTO.getAddresses().stream().forEach(addressWithoutCustomerDTO -> {
+    		AddressDTO addressDTO = addressWithoutCustomerDTO.toAddressDTO(savedCustomer.getId());
     		addressService.create(addressDTO);
     	});
     	
-    	return findById(savedCustomer.getId());
+    	return savedCustomer;
 	}
 }

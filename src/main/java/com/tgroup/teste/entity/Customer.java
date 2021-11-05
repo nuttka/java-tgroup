@@ -48,7 +48,7 @@ public class Customer {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Address> addresses = new ArrayList<>();
 
     public Customer() {
