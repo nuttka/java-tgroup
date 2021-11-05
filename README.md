@@ -1,3 +1,5 @@
+Para rodar, necessário Java e Maven
+
 - mvn install
 - mvn spring-boot:run
 
